@@ -4,8 +4,7 @@ window.profile = {
   "initials": "VM",
   "avatarUrl": "/assets/victor-medeiros.jpg",
   "bio": [
-    "Tecnologia para criar, vender e escalar",
-    "soluções digitais com marca própria."
+    "Centralize. Execute. Scale"
   ],
   "links": [
     {
