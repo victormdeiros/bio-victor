@@ -17,8 +17,9 @@ if (profile.avatarUrl) {
   const img = new Image(); img.src = profile.avatarUrl; img.alt = profile.name;
   img.onload = () => avatar.replaceChildren(img);
 }
-for (const item of profile.links) {
+for (const [index, item] of profile.links.entries()) {
   const card = document.createElement(item.url ? 'a' : 'div');
+  card.style.setProperty('--order', index);
   card.className = `link-card${item.featured ? ' featured' : ''}${item.url ? '' : ' pending'}`;
   if (item.url) { card.href = item.url; if (!item.url.startsWith('mailto:')) card.target = '_blank'; card.rel = 'noopener noreferrer'; }
   else { card.setAttribute('aria-disabled', 'true'); }
@@ -41,4 +42,15 @@ document.getElementById('share').addEventListener('click', async () => {
     if (navigator.share) await navigator.share({ title: document.title, url: location.href });
     else { await navigator.clipboard.writeText(location.href); notify('Link da bio copiado.'); }
   } catch (error) { if (error.name !== 'AbortError') notify('Copie o endereço da página para compartilhar.'); }
+});
+
+// Feedback acessível sem interromper a navegação.
+document.getElementById('copy-email').addEventListener('click', async () => {
+  const button = document.getElementById('copy-email');
+  try {
+    await navigator.clipboard.writeText('victor@scalexhub.ai');
+    button.textContent = 'E-mail copiado ✓';
+    notify('victor@scalexhub.ai copiado.');
+    setTimeout(() => { button.textContent = 'Copiar e-mail ⧉'; }, 3000);
+  } catch { notify('Meu e-mail: victor@scalexhub.ai'); }
 });
